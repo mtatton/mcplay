@@ -1723,7 +1723,7 @@ PLAYERS = [
 #    FrameOffsetPlayer("mpg123 -q -v -k %d %s", "(^http://|\.mp[123]$)", 38.28),
 #    FrameOffsetPlayer("mpg321 -q -v -k %d %s", "(^http://|\.mp[123]$)", 38.28),
 #    FrameOffsetPlayerMpp("mppdec --gain 2 --start %d %s", "\.mp[cp+]$"),
-    TimeOffsetPlayerMplayer("mplayer -input file=%s -vc null -vo null {file}" %
+    TimeOffsetPlayerMplayer("mplayer -fs -input file=%s {file}" %
                             (CONTROL_FIFO + "-mplayer"),
                             "^http://|\.(mp[1234]|ogg|oga|flac|spx|mp[cp+]|mod|xm|fm|s3m|" +
                             "med|col|669|it|mtm|stm|aiff|au|cdr|wav|wma|m4a|m4b|flv)$"),
