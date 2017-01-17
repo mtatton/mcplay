@@ -1726,12 +1726,12 @@ PLAYERS = [
     TimeOffsetPlayerMplayer("mplayer -fs -input file=%s {file}" %
                             (CONTROL_FIFO + "-mplayer"),
                             "^http://|\.(mp[1234]|ogg|oga|flac|spx|mp[cp+]|mod|xm|fm|s3m|" +
-                            "med|col|669|it|mtm|stm|aiff|au|cdr|wav|wma|m4a|m4b|flv)$"),
+                            "med|col|669|it|mtm|stm|aiff|aif|au|cdr|wav|wma|m4a|m4b|flv)$"),
 #    TimeOffsetPlayer("madplay -v --display-time=remaining -s %d %s", "\.mp[123]$"),
 #    FrameOffsetPlayer("ogg123 -q -v -k %d %s", "\.(oga|flac|spx)$"),
 #    NoOffsetPlayer("mikmod -q -p0 %s", "\.(mod|xm|fm|s3m|med|col|669|it|mtm)$"),
 #    NoOffsetPlayer("xmp -q %s", "\.(mod|xm|fm|s3m|med|col|669|it|mtm|stm)$"),
-#    NoOffsetPlayer("play %s", "\.(aiff|au|cdr|mp3|ogg|wav)$"),
+#    NoOffsetPlayer("play %s", "\.(aiff|aif|au|cdr|mp3|ogg|wav)$"),
 #    NoOffsetPlayer("speexdec %s", "\.spx$"),
     ]
 
