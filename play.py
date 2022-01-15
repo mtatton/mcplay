@@ -1,14 +1,19 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- mode:python; coding:utf-8 -*-
 
-__version__ = "play 1.00"
+__version__ = "play 1.01"
 
 """
 
 
-play - A curses front-end for various audio players based on cplay
+mcplay - A curses front-end for various audio players based on cplay
+
 Copyright (C) 1998-2005 Ulf Betlehem <flu@iki.fi>
 Copyright (C) 2008-2011 Adrian C. <anrxc@sysphere.org>
+Copyright (C) 2022-???? Michael T. <dev@null>
+
+CHANGELOG:
+Edited for Python 3.7
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -54,7 +59,7 @@ CONTROL_FIFO = "%s/play-control-%s" % (
 
 # ------------------------------------------
 def which(program):
-    for path in string.split(os.environ["PATH"], ":"):
+    for path in str.split(os.environ["PATH"], ":"):
         if os.path.exists(os.path.join(path, program)):
             return os.path.join(path, program)
 
@@ -88,12 +93,15 @@ class Keymap:
         self.methods = [None] * curses.KEY_MAX
 
     def bind(self, key, method, args=None):
-        if type(key) in (TupleType, ListType):
+        if type(key) in (tuple, list):
             for i in key: self.bind(i, method, args)
             return
-        if type(key) is StringType:
+        if type(key) is str:
             key = ord(key)
-        self.methods[key] = (method, args)
+            self.methods[key] = (method, args)
+        if type(key) is range:
+            for k in key:
+                self.methods[k] = (method, args)
 
     def process(self, key):
         try:
@@ -107,7 +115,7 @@ class Keymap:
 
 # ------------------------------------------
 class Window:
-    chars = string.letters+string.digits+string.punctuation+string.whitespace
+    chars = string.ascii_letters+string.digits+string.punctuation+string.whitespace
 
     def __init__(self, parent):
         self.parent = parent
@@ -515,7 +523,7 @@ class HelpWindow(ListWindow):
         ListWindow.__init__(self, parent)
         self.name = "Help"
         self.keymap.bind('q', self.parent.help, ())
-        self.buffer = string.split("""\
+        self.buffer = str.split("""\
   Global                               t, T  : tag current/regex
   ------                               u, U  : untag current/regex
   Up, Down, k, j, C-p, C-n,            Sp, i : invert current/all
@@ -683,14 +691,14 @@ class TagListWindow(ListWindow):
                     entry.set_tagged(self.tag_value)
             self.update()
             app.status("ok", 1)
-        except re.error, e:
+        except Exception as e:
             app.status(e, 2)
 
     def get_tagged(self):
-        return filter(lambda x: x.is_tagged(), self.buffer)
+        return (list(filter(lambda x: x.is_tagged(), self.buffer)))
 
     def not_tagged(self, l):
-        return filter(lambda x: not x.is_tagged(), l)
+        return (list(filter(lambda x: not x.is_tagged(), l)))
 
 # ------------------------------------------
 class FilelistWindow(TagListWindow):
@@ -747,7 +755,7 @@ class FilelistWindow(TagListWindow):
 
     def stop_search_recursively(self):
         try: re_tmp = re.compile(app.input_string, re.I)
-        except re.error, e:
+        except Exception as e:
             app.status(e, 2)
             return
         app.status("Searching...")
@@ -816,7 +824,7 @@ class FilelistWindow(TagListWindow):
             for self.bufptr in range(len(self.buffer)):
                 if self.buffer[self.bufptr].filename == prevdir: break
             else: self.bufptr = 0
-        elif self.oldposition.has_key(self.cwd):
+        elif self.cwd in self.oldposition:
             self.bufptr = self.oldposition[self.cwd]
         else: self.bufptr = 0
         self.parent.update_title()
@@ -926,16 +934,19 @@ class PlaylistWindow(TagListWindow):
                 if os.path.isdir(pathname):
                     subdirs.append(pathname)
             map(self.add_dir, subdirs)
-        except Exception, e:
+        except Exception as e:
             app.status(e, 2)
 
     def add_m3u(self, line):
-        if re.match("^(#.*)?$", line): return
-        if re.match("^(/|http://)", line):
-            self.append(PlaylistEntry(self.fix_url(line)))
-        else:
-            dirname = os.path.dirname(self.pathname)
-            self.append(PlaylistEntry(os.path.join(dirname, line)))
+        try:
+            if re.match("^(#.*)?$", line): return
+            if re.match("^(/|http://)", line):
+                self.append(PlaylistEntry(self.fix_url(line)))
+            else:
+                dirname = os.path.dirname(self.pathname)
+                self.append(PlaylistEntry(os.path.join(dirname, line)))
+        except Exception as e:
+            app.status(e, 2)
 
     def add_pls(self, line):
         # todo - support title & length
@@ -943,12 +954,20 @@ class PlaylistWindow(TagListWindow):
         if m: self.append(PlaylistEntry(self.fix_url(m.group(2))))
 
     def add_playlist(self, pathname):
-        self.pathname = pathname
-        if re.search("\.m3u$", pathname, re.I): f = self.add_m3u
-        if re.search("\.pls$", pathname, re.I): f = self.add_pls
-        file = open(pathname)
-        map(f, map(string.strip, file.readlines()))
-        file.close()
+        try:
+            self.pathname = pathname
+            if re.search("\.m3u$", pathname, re.I): f = self.add_m3u
+            if re.search("\.pls$", pathname, re.I): f = self.add_pls
+            file = open(pathname)
+            #map(f, map(str.strip, file.readlines()))
+            f = file.read()
+            f = f.splitlines()
+            file.close()
+            for item in f:
+              self.add_m3u(item)
+            #print(str(f))
+        except Exception as e:
+            app.status(e, 2)
 
     def add(self, pathname, quiet=0):
         try:
@@ -963,8 +982,8 @@ class PlaylistWindow(TagListWindow):
             # todo - refactor
             filename = os.path.basename(pathname) or pathname
             quiet or self.update()
-            quiet or app.status("Added: %s" % filename, 1)
-        except Exception, e:
+            #quiet or app.status("Added: %s" % filename, 1)
+        except Exception as e:
             app.status(e, 2)
 
     def fix_url(self, url):
@@ -1078,7 +1097,7 @@ class PlaylistWindow(TagListWindow):
 
     def command_sort(self):
         app.status("Working...")
-        self.buffer.sort(lambda x, y: x.vp() > y.vp() or -1)
+        self.buffer.sort(key=(lambda x, y: x.vp() > y.vp() or -1))
         self.bufptr = 0
         self.update()
         app.status("Sorted playlist", 1)
@@ -1119,7 +1138,7 @@ class PlaylistWindow(TagListWindow):
             file.close()
             self.pathname = pathname
             app.status("ok", 1)
-        except IOError, e:
+        except Exception as e:
             app.status(e, 2)
 
 # ------------------------------------------
@@ -1194,7 +1213,7 @@ class Player:
         self.tid = None
 
     def setup(self, entry, offset):
-        self.argv = string.split(self.commandline)
+        self.argv = str.split(self.commandline)
         self.argv[0] = which(self.argv[0])
         for i in range(len(self.argv)):
             if self.argv[i] in ["%s", "{file}"]:
@@ -1336,7 +1355,7 @@ class TimeOffsetPlayerMplayer(Player):
         try:
             if os.path.exists(CONTROL_FIFO + "-mplayer"):
                 os.unlink(CONTROL_FIFO + "-mplayer")
-            os.mkfifo(CONTROL_FIFO + "-mplayer", 0600)
+            os.mkfifo(CONTROL_FIFO + "-mplayer", 0o600)
             Player.play(self)
             self.fd = open(CONTROL_FIFO + "-mplayer", "w")
             self.fd.write("seek %d\n" % self.offset)
@@ -1346,9 +1365,9 @@ class TimeOffsetPlayerMplayer(Player):
             return
 
     def parse_buf(self):
-        match = self.re_progress.search(self.buf)
+        match = self.re_progress.search(self.buf.decode('utf-8'))
         if match:
-            curS, totS = map(string.atoi, match.groups())
+            curS, totS = map(int, match.groups())
             position, length = curS, totS
             self.set_position(position, length)
 
@@ -1377,7 +1396,7 @@ class Timeout:
         del self.dict[tid]
 
     def check(self, now):
-        for tid, (func, args, timeout) in self.dict.items():
+        for tid, (func, args, timeout) in list(self.dict.items()):
             if now >= timeout:
                 self.remove(tid)
                 func(*args)
@@ -1404,7 +1423,7 @@ class FIFOControl:
         try:
             if os.path.exists(CONTROL_FIFO):
                 os.unlink(CONTROL_FIFO)
-            os.mkfifo(CONTROL_FIFO, 0600)
+            os.mkfifo(CONTROL_FIFO, 0o600)
             self.fd = open(CONTROL_FIFO, "rb+", 0)
         except IOError:
             return
@@ -1588,7 +1607,7 @@ class Application:
 
     def mixer(self, cmd=None, arg=None):
         try: self._mixer(cmd, arg)
-        except Exception, e: app.status(e, 2)
+        except Exception as e: app.status(e, 2)
 
     def _mixer(self, cmd, arg):
         try:
@@ -1691,7 +1710,7 @@ def main():
 
     playlist = []
     if not sys.stdin.isatty():
-        playlist = map(string.strip, sys.stdin.readlines())
+        playlist = map(str.strip, sys.stdin.readlines())
         os.close(0)
         os.open("/dev/tty", 0)
     try:
@@ -1740,11 +1759,11 @@ MACRO = {}
 def VALID_SONG(name):
     for player in PLAYERS:
         if player.re_files.search(name):
-            return 1
+            return(1)
 
 def VALID_PLAYLIST(name):
     if re.search("\.(m3u|pls)$", name, re.I):
-        return 1
+        return(1)
 
 # ------------------------------------------
 if __name__ == "__main__":
