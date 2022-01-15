@@ -1,5 +1,5 @@
         ---== mcplayer ==---
-         console music player 
+         music console player 
            mmxxii edition 
          ---== ------- ===---
         
