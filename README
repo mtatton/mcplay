@@ -45,4 +45,6 @@ Authors:
 	a copy somewhere .... no credit to me what so ever.
 	gusten@dindinoh.net
 
-
+        20220115 Some basic conversion to python3 has been done. I tested
+        just several functions on Python 3.7. It does read the directory,
+        it does play the m3u. More testing to be done. (dev@null)
