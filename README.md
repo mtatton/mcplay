@@ -1,7 +1,15 @@
-        ---== mcplayer ==---
-         music console player 
-           mmxxii edition 
-         ---== ------- ===---
+
+                            .__
+        _____   ____ ______ |  | _____  ___.__.
+       /     \_/ ___\\____ \|  | \__  \<   |  |
+      |  Y Y  \  \___|  |_> >  |__/ __ \\___  |
+      |__|_|  /\___  >   __/|____(____  / ____|
+            \/     \/|__|             \/\/
+      
+      ---== mcplayer ==---
+      music console player 
+        mmxxii edition 
+      ---== ------- ===---
         
 ![MCPLAYER SCREEN](https://raw.githubusercontent.com/mtatton/mcplay/master/mcplay.png)
 
