@@ -1,3 +1,10 @@
+        ---== mcplayer ==---
+         console music player 
+           mmxxii edition 
+         ---== ------- ===---
+        
+![MCPLAYER SCREEN](https://raw.githubusercontent.com/mtatton/mcplay/master/mcplay.png)
+
 Description:
 
         play is a curses front-end for various audio players, based on
@@ -37,13 +44,13 @@ Authors:
         MPlayer support was added to play from the excellent work done
         by Tom Adams and Tomi Pievilainen on GitHub.com.
 
-	I basically just ripped it from
-	http://git.sysphere.org/play/
-	and modified it and put it on my github for convenience. I got tired
-	of it not working the way I wanted it to. That is using only mplayer
-	and then maybe to add gif/jpeg support again which I had working in
-	a copy somewhere .... no credit to me what so ever.
-	gusten@dindinoh.net
+        I basically just ripped it from
+        http://git.sysphere.org/play/
+        and modified it and put it on my github for convenience. I got tired
+        of it not working the way I wanted it to. That is using only mplayer
+        and then maybe to add gif/jpeg support again which I had working in
+        a copy somewhere .... no credit to me what so ever.
+        gusten@dindinoh.net
 
         20220115 Some basic conversion to python3 has been done. I tested
         just several functions on Python 3.7. It does read the directory,
