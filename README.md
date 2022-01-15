@@ -27,6 +27,29 @@ Usage:
 
         When in doubt, press 'h' for a friendly help page.
 
+Keyboard controls:
+
+        Global                               t, T  : tag current/regex
+        ------                               u, U  : untag current/regex
+        Up, Down, k, j, C-p, C-n,            Sp, i : invert current/all
+        PgUp, PgDn, K, J,                    !, ,  : shell, macro
+        Home, End, g, G : movement
+        Enter           : chdir or play      Filelist
+        Tab             : filelist/playlist  --------
+        n, p            : next/prev track    a     : add (tagged) to playlist
+        z, x            : toggle pause/stop  s     : recursive search
+                                             BS, o : goto parent/specified dir
+        Left, Right,                         m, '  : set/get bookmark
+        C-f, C-b    : seek forward/backward
+        C-a, C-e    : restart/end track      Playlist
+        C-s, C-r, / : isearch                --------
+        C-g, Esc    : cancel                 d, D  : delete (tagged) tracks/playlist
+        1..9, +, -  : volume control         m, M  : move tagged tracks after/before
+        c, v        : counter/volume mode    r, R  : toggle repeat/Random mode
+        <, >        : horizontal scrolling   s, S  : shuffle/Sort playlist
+        C-l, l      : refresh, list mode     w, @  : write playlist, jump to active
+        h, q, Q     : help, quit?, Quit!     X     : stop playlist after each track
+
 Miscellaneous:
 
         In order for either mp3info (ID3) or ogginfo to work, both
