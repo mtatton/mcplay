@@ -1097,7 +1097,7 @@ class PlaylistWindow(TagListWindow):
 
     def command_sort(self):
         app.status("Working...")
-        self.buffer.sort(key=(lambda x, y: x.vp() > y.vp() or -1))
+        self.buffer = sorted(self.buffer, key=lambda x: x.vp() or -1)
         self.bufptr = 0
         self.update()
         app.status("Sorted playlist", 1)
