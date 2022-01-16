@@ -1485,9 +1485,12 @@ class Application:
         #   pair 0 is always white on black
         #   color -1 is the default color if use_default_colors() is called
         curses.init_pair(1, curses.COLOR_RED, -1)
-        curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
+        curses.init_pair(2, curses.COLOR_RED, -1)
+        # black color explicitly causes display problems on GNU SCREEN
+        #curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
         curses.init_pair(3, curses.COLOR_YELLOW, -1)
-        curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+        #curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+        curses.init_pair(4, curses.COLOR_YELLOW, -1)
         # If you'd like it more colorful, you can play with:
         #   BLACK, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN and WHITE
         #
