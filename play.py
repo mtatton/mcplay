@@ -502,8 +502,8 @@ class ListWindow(Window):
                 app.status("Not found: %s " % app.input_string)
                 self.not_found = 1
                 break
-            line = string.lower(str(self.buffer[index]))
-            if string.find(line, string.lower(app.input_string)) != -1:
+            line = str(self.buffer[index]).lower()
+            if line.find(str(app.input_string).lower()) != -1:
                 app.show_input()
                 self.update_line(refresh = 0)
                 self.bufptr = index
