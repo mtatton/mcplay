@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- mode:python; coding:utf-8 -*-
 
-__version__ = "play 1.01"
+__version__ = "play 1.02"
 
 """
 
@@ -93,12 +93,14 @@ class Keymap:
         self.methods = [None] * curses.KEY_MAX
 
     def bind(self, key, method, args=None):
-        if type(key) in (tuple, list):
-            for i in key: self.bind(i, method, args)
-            return
         if type(key) is str:
-            key = ord(key)
-            self.methods[key] = (method, args)
+            ki = ord(key)
+            self.methods[ki] = (method, args)
+        if type(key) in (tuple, list):
+            for ki in key:
+                if type(ki) is str:
+                    ki = ord(ki)
+                self.methods[ki] = (method, args)
         if type(key) is range:
             for k in key:
                 self.methods[k] = (method, args)
