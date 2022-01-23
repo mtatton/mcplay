@@ -526,26 +526,26 @@ class HelpWindow(ListWindow):
         self.name = "Help"
         self.keymap.bind('q', self.parent.help, ())
         self.buffer = str.split("""\
-  Global                               t, T  : tag current/regex
-  ------                               u, U  : untag current/regex
-  Up, Down, k, j, C-p, C-n,            Sp, i : invert current/all
-  PgUp, PgDn, K, J,                    !, ,  : shell, macro
-  Home, End, g, G : movement
-  Enter           : chdir or play      Filelist
-  Tab             : filelist/playlist  --------
-  n, p            : next/prev track    a     : add (tagged) to playlist
-  z, x            : toggle pause/stop  s     : recursive search
-                                       BS, o : goto parent/specified dir
-  Left, Right,                         m, '  : set/get bookmark
-  C-f, C-b    : seek forward/backward
-  C-a, C-e    : restart/end track      Playlist
-  C-s, C-r, / : isearch                --------
-  C-g, Esc    : cancel                 d, D  : delete (tagged) tracks/playlist
-  1..9, +, -  : volume control         m, M  : move tagged tracks after/before
-  c, v        : counter/volume mode    r, R  : toggle repeat/Random mode
-  <, >        : horizontal scrolling   s, S  : shuffle/Sort playlist
-  C-l, l      : refresh, list mode     w, @  : write playlist, jump to active
-  h, q, Q     : help, quit?, Quit!     X     : stop playlist after each track
+ * Global                              * Filelist
+ Up, Down, k, j, C-p, C-n, PgUp, PgDn, a     : add (tagged) to playlist
+ K, J, Home, End : movement            s     : recursive search
+ g, G            : first/last item     BS, o : goto parent/specified dir
+ Enter           : chdir or play       m, '  : set/get bookmark
+ Tab             : filelist/playlist
+ n, p            : next/prev track
+ z, x            : toggle pause/stop
+
+ * Playback                            * Playlist
+ Left, Right,                          d, D  : delete (tagged) tracks/playlist
+ C-f, C-b    : seek forward/backward   m, M  : move tagged tracks after/before
+ C-a, C-e    : restart/end track       r, R  : toggle repeat/Random mode
+ C-s, C-r, / : isearch                 s, S  : shuffle/Sort playlist
+ C-g, Esc    : cancel                  w, @  : write playlist, jump to active
+ 1..9, +, -  : volume control          X     : stop playlist after each track
+ c, v        : counter/volume mode     t, T  : tag current/regex
+ <, >        : horizontal scrolling    u, U  : untag current/regex
+ C-l, l      : refresh, list mode      Sp, i : invert current/all
+ h, q, Q     : help, quit?, Quit!      !, ,  : shell, macro
 """, "\n")
 
 # ------------------------------------------
